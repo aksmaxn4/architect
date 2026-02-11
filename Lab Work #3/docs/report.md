@@ -31,6 +31,6 @@
 
 ## 4. Модель БД
 
-![Модель БД](docs/img/DB_scheme.png)
+![Модель БД](img/DB_scheme.png)
 
 ---
