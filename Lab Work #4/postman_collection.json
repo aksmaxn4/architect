@@ -1,0 +1,155 @@
+{
+  "info": {
+    "name": "Lab4 Arbitrage API v2",
+    "_postman_id": "11111111-2222-3333-4444-555555555555",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health (public)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "health"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', function(){pm.response.to.have.status(200);});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "List exchanges (user)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-API-Key",
+            "value": "demo-user"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8000/api/v1/exchanges",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "exchanges"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', ()=>pm.response.to.have.status(200));",
+              "pm.test('Array', ()=>pm.expect(pm.response.json()).to.be.an('array'));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create exchange (admin)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-API-Key",
+            "value": "demo-admin"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"OKX\", \"type\": \"CEX\", \"network\": null}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/api/v1/exchanges",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "api",
+            "v1",
+            "exchanges"
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201', ()=>pm.response.to.have.status(201));",
+              "pm.test('Has id', ()=>pm.expect(pm.response.json().id).to.exist);"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Ingest opportunity (service)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "X-API-Key",
+            "value": "service-engine"
+          },
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{}"
+        },
+        "url": {
+          "raw": "http://localhost:8000/internal/v1/opportunities",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8000",
+          "path": [
+            "internal",
+            "v1",
+            "opportunities"
+          ]
+        }
+      }
+    }
+  ]
+}
