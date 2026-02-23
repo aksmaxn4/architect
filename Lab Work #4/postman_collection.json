@@ -1,155 +1,389 @@
 {
   "info": {
-    "name": "Lab4 Arbitrage API v2",
-    "_postman_id": "11111111-2222-3333-4444-555555555555",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "_postman_id": "02620991-98d9-4538-9a07-f023b550a428",
+    "name": "CEX DEX API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "52618040",
+    "_collection_link": "https://go.postman.co/collection/52618040-02620991-98d9-4538-9a07-f023b550a428?source=collection_link"
   },
   "item": [
     {
-      "name": "Health (public)",
+      "name": "0 Health",
+      "item": [
+        {
+          "name": "Health",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "10 Users",
+      "item": []
+    },
+    {
+      "name": "20 Exchanges",
+      "item": [
+        {
+          "name": "user get exshanges",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{userKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/exchanges",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "exchanges"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user creates exhange",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{userKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"TestExchange\",\r\n  \"type\": \"CEX\",\r\n  \"network\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/exchanges",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "exchanges"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "admin creates exchange",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{adminKey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"name\": \"TestExchange\",\r\n  \"type\": \"CEX\",\r\n  \"network\": null\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/exchanges",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "exchanges"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "30 Pairs",
+      "item": [
+        {
+          "name": "admin creates pair",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{adminKey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"base\": \"SOL\",\r\n  \"quote\": \"USDT\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pairs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pairs"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user gets pairs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{userKey}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/pairs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "pairs"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "40 Prices",
+      "item": []
+    },
+    {
+      "name": "50 Opportunities",
+      "item": [
+        {
+          "name": "service creates opportunity",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{serviceKey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"pairId\": \"44b2c34e-aee1-4930-9e61-d72eb125feca\",\r\n  \"buyExchangeId\": \"ae780d9f-7a80-4ec1-9931-940e10e22825\",\r\n  \"sellExchangeId\": \"d6121593-5661-4f0e-ba25-58e5bc5133f4\",\r\n  \"spreadPct\": 1.5,\r\n  \"estimatedProfitUsd\": 12.5\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/internal/v1/opportunities",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "internal",
+                "v1",
+                "opportunities"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "user gets opportunities",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "60 Notification Channels",
+      "item": [
+        {
+          "name": "user creates channel",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{userKey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"type\": \"TELEGRAM\",\r\n  \"address\": \"123456\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/notification-channels",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notification-channels"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "70 Notification Rules",
+      "item": [
+        {
+          "name": "user creates notif rule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{userKey}}",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"minSpreadPct\": 1.0,\r\n  \"cooldownSec\": 60\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/notification-rules",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "notification-rules"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "80 Alert Logs",
+      "item": [
+        {
+          "name": "service creates log",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "90 Internal",
+      "item": [
+        {
+          "name": "service creates quotation",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "X-API-Key",
+                "value": "{{serviceKey}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"exchangeId\": \"d6121593-5661-4f0e-ba25-58e5bc5133f4\",\r\n  \"pairId\": \"44b2c34e-aee1-4930-9e61-d72eb125feca\",\r\n  \"bid\": 100,\r\n  \"ask\": 102\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/internal/v1/prices",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "internal",
+                "v1",
+                "prices"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "New Request",
       "request": {
         "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "http://localhost:8000/api/v1/health",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "health"
-          ]
-        }
+        "header": []
       },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', function(){pm.response.to.have.status(200);});"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "List exchanges (user)",
-      "request": {
-        "method": "GET",
-        "header": [
-          {
-            "key": "X-API-Key",
-            "value": "demo-user"
-          }
-        ],
-        "url": {
-          "raw": "http://localhost:8000/api/v1/exchanges",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "exchanges"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 200', ()=>pm.response.to.have.status(200));",
-              "pm.test('Array', ()=>pm.expect(pm.response.json()).to.be.an('array'));"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Create exchange (admin)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-API-Key",
-            "value": "demo-admin"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\"name\": \"OKX\", \"type\": \"CEX\", \"network\": null}"
-        },
-        "url": {
-          "raw": "http://localhost:8000/api/v1/exchanges",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8000",
-          "path": [
-            "api",
-            "v1",
-            "exchanges"
-          ]
-        }
-      },
-      "event": [
-        {
-          "listen": "test",
-          "script": {
-            "type": "text/javascript",
-            "exec": [
-              "pm.test('Status 201', ()=>pm.response.to.have.status(201));",
-              "pm.test('Has id', ()=>pm.expect(pm.response.json().id).to.exist);"
-            ]
-          }
-        }
-      ]
-    },
-    {
-      "name": "Ingest opportunity (service)",
-      "request": {
-        "method": "POST",
-        "header": [
-          {
-            "key": "X-API-Key",
-            "value": "service-engine"
-          },
-          {
-            "key": "Content-Type",
-            "value": "application/json"
-          }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{}"
-        },
-        "url": {
-          "raw": "http://localhost:8000/internal/v1/opportunities",
-          "protocol": "http",
-          "host": [
-            "localhost"
-          ],
-          "port": "8000",
-          "path": [
-            "internal",
-            "v1",
-            "opportunities"
-          ]
-        }
-      }
+      "response": []
     }
   ]
 }
