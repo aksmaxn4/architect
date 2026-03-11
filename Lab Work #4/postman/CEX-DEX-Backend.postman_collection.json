@@ -1,0 +1,692 @@
+{
+  "info": {
+    "name": "CEX-DEX Backend API",
+    "_postman_id": "f6ad3037-469c-4e70-b31f-21e60ff2f001",
+    "description": "Коллекция для smoke/integration тестирования backend-api.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"{{adminEmail}}\",\n  \"password\": \"{{adminPassword}}\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('access token exists', function () {",
+                  "  pm.expect(json.access_token).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.collectionVariables.set('accessToken', json.access_token);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('me has role', function () {",
+                  "  pm.expect(json.role).to.be.a('string').and.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin Reference",
+      "item": [
+        {
+          "name": "List Chains",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/chains",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "chains"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const items = pm.response.json();",
+                  "pm.test('chains is array', function () {",
+                  "  pm.expect(items).to.be.an('array');",
+                  "});",
+                  "const base = items.find(i => String(i.code || '').toLowerCase() === 'base');",
+                  "if (base && base.id) { pm.collectionVariables.set('chainId', base.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Venues (dex, base)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/venues?kind=dex&network=base",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "venues"
+              ],
+              "query": [
+                {
+                  "key": "kind",
+                  "value": "dex"
+                },
+                {
+                  "key": "network",
+                  "value": "base"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const items = pm.response.json();",
+                  "pm.test('venues is array', function () {",
+                  "  pm.expect(items).to.be.an('array');",
+                  "});",
+                  "if (items.length > 0 && items[0].id) {",
+                  "  pm.collectionVariables.set('dexVenueId', items[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "List Protocols (evm)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/protocols?chain_kind=evm",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "protocols"
+              ],
+              "query": [
+                {
+                  "key": "chain_kind",
+                  "value": "evm"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const items = pm.response.json();",
+                  "pm.test('protocols is array', function () {",
+                  "  pm.expect(items).to.be.an('array');",
+                  "});",
+                  "if (items.length > 0 && items[0].id) {",
+                  "  pm.collectionVariables.set('protocolId', items[0].id);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin Pairs",
+      "item": [
+        {
+          "name": "Validate Pair (base)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"symbol\": \"CLAWNCH/USDT\",\n  \"network\": \"base\",\n  \"pool_address\": \"0xa1F72459dfA10BAD200Ac160eCd78C6b77a747be\",\n  \"cex_symbol\": \"CLAWNCHUSDT\",\n  \"meta\": {}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pairs/validate",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pairs",
+                "validate"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('validate response contract', function () {",
+                  "  pm.expect(json).to.have.property('errors');",
+                  "  pm.expect(json).to.have.property('warnings');",
+                  "  pm.expect(json.errors).to.be.an('array');",
+                  "  pm.expect(json.warnings).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Create Pair (test)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const rnd = Date.now().toString().slice(-6);",
+                  "pm.collectionVariables.set('createdPairId', '');",
+                  "pm.collectionVariables.set('testPairSymbol', `TST${rnd}/USDT`);",
+                  "pm.collectionVariables.set('testPairCexSymbol', `TST${rnd}USDT`);",
+                  "pm.request.body.update(JSON.stringify({",
+                  "  symbol: pm.collectionVariables.get('testPairSymbol'),",
+                  "  network: 'base',",
+                  "  pool_address: '0x1111111111111111111111111111111111111111',",
+                  "  cex_symbol: pm.collectionVariables.get('testPairCexSymbol'),",
+                  "  meta: {},",
+                  "  is_enabled: true",
+                  "}, null, 2));"
+                ]
+              }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('pair created', function () {",
+                  "  pm.expect(json.id).to.be.a('string').and.not.empty;",
+                  "});",
+                  "pm.collectionVariables.set('createdPairId', json.id);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"symbol\": \"TST000000/USDT\",\n  \"network\": \"base\",\n  \"pool_address\": \"0x1111111111111111111111111111111111111111\",\n  \"cex_symbol\": \"TST000000USDT\",\n  \"meta\": {},\n  \"is_enabled\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pairs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pairs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Patch Pair (test)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const pairId = pm.collectionVariables.get('createdPairId');",
+                  "if (!pairId || pairId === 'null' || pairId === 'undefined') {",
+                  "  throw new Error('createdPairId is empty. Create Pair (test) failed or was skipped.');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"is_enabled\": false,\n  \"spread_threshold_override\": 0.42\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pairs/{{createdPairId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pairs",
+                "{{createdPairId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('pair disabled', function () {",
+                  "  pm.expect(json.is_enabled).to.eql(false);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Delete Pair (soft)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const pairId = pm.collectionVariables.get('createdPairId');",
+                  "if (!pairId || pairId === 'null' || pairId === 'undefined') {",
+                  "  throw new Error('createdPairId is empty. Create Pair (test) failed or was skipped.');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/pairs/{{createdPairId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "pairs",
+                "{{createdPairId}}"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('soft delete ok', function () {",
+                  "  pm.expect(json.ok).to.eql(true);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin Settings",
+      "item": [
+        {
+          "name": "Get Settings",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/settings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "settings"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const json = pm.response.json();",
+                  "pm.test('settings has threshold', function () {",
+                  "  pm.expect(json.global_spread_threshold).to.not.equal(undefined);",
+                  "});",
+                  "pm.collectionVariables.set('currentThreshold', String(json.global_spread_threshold));"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Patch Settings (no-op)",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "if (!pm.collectionVariables.get('currentThreshold')) {",
+                  "  pm.collectionVariables.set('currentThreshold', '0');",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"global_spread_threshold\": {{currentThreshold}}\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/admin/settings",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "admin",
+                "settings"
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Opportunities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{accessToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/opportunities?limit=20",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "opportunities"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "20"
+                }
+              ]
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('status is 200', function () {",
+                  "  pm.response.to.have.status(200);",
+                  "});",
+                  "const data = pm.response.json();",
+                  "pm.test('opportunities is array', function () {",
+                  "  pm.expect(data).to.be.an('array');",
+                  "});"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8000"
+    },
+    {
+      "key": "adminEmail",
+      "value": "admin@example.com"
+    },
+    {
+      "key": "adminPassword",
+      "value": "change_me_admin_password"
+    },
+    {
+      "key": "accessToken",
+      "value": ""
+    },
+    {
+      "key": "chainId",
+      "value": ""
+    },
+    {
+      "key": "dexVenueId",
+      "value": ""
+    },
+    {
+      "key": "protocolId",
+      "value": ""
+    },
+    {
+      "key": "createdPairId",
+      "value": ""
+    },
+    {
+      "key": "currentThreshold",
+      "value": ""
+    },
+    {
+      "key": "testPairSymbol",
+      "value": ""
+    },
+    {
+      "key": "testPairCexSymbol",
+      "value": ""
+    }
+  ]
+}
