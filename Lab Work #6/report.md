@@ -710,21 +710,3 @@ async def _worker_loop(self) -> None:
 - стратегии, observer, state и mediator обеспечивают гибкую обработку рыночных данных.
 
 Таким образом, цель лабораторной работы достигнута: в проекте выявлены и проанализированы шаблоны GoF, сопровожденные UML-диаграммами и фрагментами реального кода.
-
-## Ссылки на использованный код
-
-- [services/engine/price_sources/dex/common/pricer_factory.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/common/pricer_factory.py)
-- [services/engine/price_sources/dex/common/factory.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/common/factory.py)
-- [services/engine/price_sources/dex/common/pricer.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/common/pricer.py)
-- [services/engine/price_sources/dex/common/base.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/common/base.py)
-- [services/engine/price_sources/dex/evm/protocols/pools.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/evm/protocols/pools.py)
-- [services/engine/price_sources/dex/evm/rpc/base_price.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/evm/rpc/base_price.py)
-- [services/engine/price_sources/dex/solana/protocols/amm.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/solana/protocols/amm.py)
-- [services/engine/price_sources/dex/solana/rpc/pool_parser.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/solana/rpc/pool_parser.py)
-- [services/engine/price_sources/dex/solana/rpc/pricer.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/solana/rpc/pricer.py)
-- [services/engine/price_sources/dex/solana/ws_client.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/solana/ws_client.py)
-- [services/engine/price_sources/dex/solana/ws_monitor.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/solana/ws_monitor.py)
-- [services/engine/price_sources/dex/rest/dexscreener/source.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/rest/dexscreener/source.py)
-- [services/engine/price_sources/dex/rest/dexscreener/client.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/rest/dexscreener/client.py)
-- [services/engine/price_sources/dex/rest/dexscreener/proxy_pool.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/price_sources/dex/rest/dexscreener/proxy_pool.py)
-- [services/engine/app.py](/c:/Users/aksma/OneDrive/Рабочий%20стол/cex%20trade%20tools/cex%20dex%20parser%20mvp%20(24.02.26=last)/services/engine/app.py)
